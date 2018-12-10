@@ -1,0 +1,40 @@
+{
+  "name": "lesson-project",
+  "version": "0.1.0",
+  "private": true,
+  "description": "lesson-project",
+  "main": "lib/main.js",
+  "scripts": {
+    "build": "babel src --ignore \"_*\" --out-dir lib",
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "flow",
+    "test-src": "jest",
+    "test": "npm run lint && npm run typecheck && npm run test-src",
+    "server": "nodemon --exec babel-node src/main.js"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "node-fetch": "^1.7.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-syntax-flow": "^6.18.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-preset-es2015-native-generators": "^6.6.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "eslint": "^4.6.1",
+    "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-flowtype": "^2.35.1",
+    "flow-bin": "^0.54.1",
+    "flow-typed": "^2.1.5",
+    "jest": "^21.0.1",
+    "nodemon": "^1.18.7",
+    "npx": "^10.2.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
