@@ -6,15 +6,16 @@ const app = express();
 const port = 80;
 
 const connectionString = `${process.env.DATABASE_URL || 'localhost'}`;
-const pool = new Pool({
-  user: process.env.DATABASE_USER || 'root',
-  host: connectionString,
-  database: process.env.DATABASE_NAME,
-  password: process.env.DATABASE_PASSWORD,
-  port: '5432',
-});
+
 app.get('/', (req, res) => res.send('Hello World!'));
 app.get('/item/:nik', (req, res) => {
+  const pool = new Pool({
+    user: process.env.DATABASE_USER || 'root',
+    host: connectionString,
+    database: process.env.DATABASE_NAME,
+    password: process.env.DATABASE_PASSWORD,
+    port: '5432',
+  });
   if (req.params && req.params.nik) {
     const queryText = `SELECT * FROM users WHERE nik = ${req.params.nik}`;
     pool
