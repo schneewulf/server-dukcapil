@@ -3,7 +3,7 @@ import express from 'express';
 require('dotenv').config();
 import {Pool} from 'pg';
 const app = express();
-const port = 3000;
+const port = 80;
 
 const connectionString = `${process.env.DATABASE_URL || 'localhost'}`;
 const pool = new Pool({
