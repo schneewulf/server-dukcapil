@@ -1,68 +1,32 @@
 //@flow
 import express from 'express';
+require('dotenv').config();
+import {Pool} from 'pg';
 const app = express();
 const port = 3000;
 
-const dummyData = [
-  {
-    id: '1',
-    name: 'Acil',
-    umur: '90',
-    pekerjaan: 'pedagang',
-  },
-  {
-    id: '2',
-    name: 'Acil2',
-    umur: '89',
-    pekerjaan: 'pedagang',
-  },
-  {
-    id: '3',
-    name: 'Acil4',
-    umur: '67',
-    pekerjaan: 'pedagang',
-  },
-  {
-    id: '4',
-    name: 'Acil5',
-    umur: '23',
-    pekerjaan: 'pedagang',
-  },
-  {
-    id: '5',
-    name: 'Acil6',
-    umur: '54',
-    pekerjaan: 'pedagang',
-  },
-  {
-    id: '6',
-    name: 'Acil7',
-    umur: '29',
-    pekerjaan: 'pedagang',
-  },
-  {
-    id: '7',
-    name: 'Acil8',
-    umur: '29',
-    pekerjaan: 'pedagang',
-  },
-  {
-    id: '8',
-    name: 'Acil9',
-    umur: '89',
-    pekerjaan: 'pedagang',
-  },
-];
-
+const connectionString = `${process.env.DATABASE_URL || 'localhost'}`;
+const pool = new Pool({
+  user: process.env.DATABASE_USER || 'root',
+  host: connectionString,
+  database: process.env.DATABASE_NAME,
+  password: process.env.DATABASE_PASSWORD,
+  port: '5432',
+});
 app.get('/', (req, res) => res.send('Hello World!'));
-app.get('/item/:id', (req, res) => {
-  console.log(req);
-  if (req.params && req.params.id && dummyData) {
-    for (let datum of dummyData) {
-      if (datum.id === req.params.id) {
-        res.send(datum);
-      }
-    }
+app.get('/item/:nik', (req, res) => {
+  if (req.params && req.params.nik) {
+    const queryText = `SELECT * FROM users WHERE nik = ${req.params.nik}`;
+    pool
+      .query(queryText)
+      .then((dbRes) => {
+        res.json(dbRes.rows[0]);
+        pool.end();
+      })
+      .catch((err) => {
+        console.log(err);
+        pool.end();
+      });
   }
 });
 
